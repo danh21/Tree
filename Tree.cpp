@@ -100,9 +100,9 @@ void countNodeEqValue(node *root, int val, int &count) {
 
 int treeLevel(node *root) {
 	if (root == NULL)
-		return -1;
-	if (root->left == NULL && root->right == NULL)
 		return 0;
+	if (root->left == NULL && root->right == NULL)
+		return 1;
 	else 
 		return 1 + max(treeLevel(root->left), treeLevel(root->right));
 }
