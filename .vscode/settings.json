@@ -1,0 +1,18 @@
+{
+    "files.associations": {
+        "iostream": "cpp",
+        "ostream": "cpp",
+        "random": "cpp",
+        "queue": "cpp",
+        "chrono": "cpp",
+        "complex": "cpp",
+        "functional": "cpp",
+        "optional": "cpp",
+        "regex": "cpp",
+        "system_error": "cpp",
+        "type_traits": "cpp",
+        "xlocmon": "cpp",
+        "xtr1common": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "disabled"
+}
