@@ -10,22 +10,23 @@ int main() {
 	vector<int> nodes;
 
 	while (1) {
-        cout << endl << " ---------------------------- MENU --------------------------- " << endl;
+        cout << "\n\n" << " ---------------------------- MENU --------------------------- " << endl;
         cout << "0. Quit" << endl;
         cout << "1. Create tree" << endl;
         cout << "2. Create binary tree" << endl;
         cout << "3. Display in-order tree" << endl;
         cout << "4. Display pre-order tree" << endl;
         cout << "5. Display post-order tree" << endl;
-        cout << "6. Display the number of nodes" << endl;
-        cout << "7. Display the level of tree" << endl;
-        cout << "8. Check AVL" << endl;
-        cout << "9. Convert to AVL tree" << endl;
-        cout << "10. Display the number of nodes equal to value" << endl;
-        cout << "11. Delete nodes equal to value" << endl;
-        cout << "12. Display nodes visible in right view of tree" << endl;
-        cout << "13. Display nodes visible in left view of tree" << endl;
-		cout << "14. Check Binary Search Tree" << endl;
+        cout << "6. Display spiral-order tree" << endl;
+		cout << "7. Display nodes visible in right view of tree" << endl;
+        cout << "8. Display nodes visible in left view of tree" << endl;
+        cout << "9. Display the number of nodes" << endl;
+        cout << "10. Display the level of tree" << endl;
+        cout << "11. Check AVL" << endl;
+        cout << "12. Convert to AVL tree" << endl;
+        cout << "13. Display the number of nodes equal to value" << endl;
+        cout << "14. Delete nodes equal to value" << endl;        
+		cout << "15. Check Binary Search Tree" << endl;
         cout << "Enter your option: ";
         cin >> opt;
 
@@ -34,7 +35,7 @@ int main() {
             case 0:
                 return 0;
             case 1:
-                cout << "Enter the number of nodes: ";
+                cout << "Enter the quantity: ";
 				cin >> nums; 
 				createTree(Tree->root, nums);
                 break;
@@ -45,71 +46,66 @@ int main() {
                 break;
             case 3:
                 cout << "In-order traversal: ";
-				printInOrderTree(Tree->root);
-				cout << endl;
+				printInOrder(Tree->root);
                 break;
             case 4:
                 cout << "Pre-order traversal: ";
-				printPreOrderTree(Tree->root);
-				cout << endl;
+				printPreOrder(Tree->root);
                 break;
             case 5:
                 cout << "Post-order traversal: ";
-				printPostOrderTree(Tree->root);
-				cout << endl;
+				printPostOrder(Tree->root);
                 break;
 			case 6:
-				cnt = 0;
-				countLeafNode(Tree->root, cnt);
-				cout << "The number of nodes: " << cnt << endl;
-				break;
+                cout << "Spiral-order traversal: ";
+				printSpiralOrder(Tree->root);
+                break;
 			case 7:
-				cout << "The level of tree: " << treeLevel(Tree->root) << endl;
+				printRightView(Tree->root, nodes, 0);
+				nodes.clear();
 				break;
 			case 8:
-				if (isAVL(Tree->root))
-					cout << "This tree is AVL tree" << endl;
-				else
-					cout << "This tree is not AVL tree" << endl;
+				printLeftView(Tree->root, nodes, 0);
+				nodes.clear();
 				break;
 			case 9:
+				cnt = 0;
+				countLeafNode(Tree->root, cnt);
+				cout << "The number of nodes: " << cnt;
+				break;
+			case 10:
+				cout << "The level of tree: " << treeLevel(Tree->root);
+				break;
+			case 11:
+				if (isAVL(Tree->root))
+					cout << "This tree is AVL tree";
+				else
+					cout << "This tree is not AVL tree";
+				break;
+			case 12:
 				while (!isAVL(Tree->root)) 
 					updateTreeAVL(Tree->root);
 				break;
-			case 10:
+			case 13:
 				cnt = 0;
 				cout << "Enter the value to count: ";
 				cin >> val;
 				countNodeEqValue(Tree->root, cnt, val);
-				cout << "The number of nodes equal to " << val << ": " << cnt << endl;
+				cout << "The number of nodes equal to " << val << ": " << cnt;
 				break;
-			case 11:
+			case 14:
 				cout << "Enter the value to delete: ";
 				cin >> val;
 				deleteNodeEqVal(Tree->root, val);
 				break;
-			case 12:
-				rightViewTraversal(Tree->root, nodes, 0);
-				for (int val : nodes)
-					cout << val << " ";
-				cout << endl;
-				nodes.clear();
-				break;
-			case 13:
-				leftViewTraversal(Tree->root, nodes, 0);
-				for (int val : nodes)
-					cout << val << " ";
-				cout << endl;
-				nodes.clear();
-				break;
-			case 14:
+			case 15:
 				if (isBST(Tree->root))
-					cout << "This tree is a binary search tree" << endl;
+					cout << "This tree is a binary search tree";
 				else
-					cout << "This tree is a not binary search tree" << endl;
+					cout << "This tree is not a binary search tree";
 				break;
             default:
-                cout << "Invalid option !" << endl;
+                cout << "Invalid option !";
                 break;
         }
     }

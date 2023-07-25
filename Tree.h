@@ -77,7 +77,7 @@ void createBinaryTree(node *&root, int nums);
  * 
  * @param root 
  */
-void printInOrderTree(node *root);
+void printInOrder(node *root);
 
 
 
@@ -86,7 +86,7 @@ void printInOrderTree(node *root);
  * 
  * @param root 
  */
-void printPreOrderTree(node *root);
+void printPreOrder(node *root);
 
 
 
@@ -95,7 +95,44 @@ void printPreOrderTree(node *root);
  * 
  * @param root 
  */
-void printPostOrderTree(node *root);
+void printPostOrder(node *root);
+
+
+
+/**
+ * @brief Traverse from level 0 for root node, 
+ * for all the even levels, print the node's value from right to left and 
+ * for all the odd levels, print the node's value from left to right.
+ * 
+ * https://practice.geeksforgeeks.org/problems/level-order-traversal-in-spiral-form/1
+ * 
+ * @param root 
+ */
+void printSpiralOrder(node *root);
+
+
+
+/**
+ * @brief Right view of a Binary Tree is set of nodes visible when tree is viewed from right side. 
+ * 
+ * https://practice.geeksforgeeks.org/problems/right-view-of-binary-tree/1
+ * 
+ * @param root 
+ * @param rightViewNodes contains nodes visible when tree is viewed from right side.
+ * @param level original level (0)
+ */
+void printRightView(node *root, vector<int> &rightViewNodes, int level);
+
+
+
+/**
+ * @brief left view of a Binary Tree is set of nodes visible when tree is viewed from left side.
+ * 
+ * @param root 
+ * @param leftViewNodes contains nodes visible when tree is viewed from left side.
+ * @param level original level (0)
+ */
+void printLeftView(node *root, vector<int> &leftViewNodes, int level);
 
 
 
@@ -127,7 +164,6 @@ void countNodeEqValue(node *root, int &count, int val);
  * @return int 
  */
 int treeLevel(node *root);
-
 
 
 
@@ -197,30 +233,6 @@ void deleteNodeEqVal(node *&root, int val);
 
 
 /**
- * @brief Right view of a Binary Tree is set of nodes visible when tree is viewed from right side. 
- * 
- * https://practice.geeksforgeeks.org/problems/right-view-of-binary-tree/1
- * 
- * @param root 
- * @param rightViewNodes contains nodes visible when tree is viewed from right side.
- * @param level original level (0)
- */
-void rightViewTraversal(node *root, vector<int> &rightViewNodes, int level);
-
-
-
-/**
- * @brief left view of a Binary Tree is set of nodes visible when tree is viewed from left side.
- * 
- * @param root 
- * @param leftViewNodes 
- * @param level 
- */
-void leftViewTraversal(node *root, vector<int> &leftViewNodes, int level);
-
-
-
-/**
  * @brief find maximum data of tree
  * 
  * @param root 
@@ -231,7 +243,7 @@ int maxValue(node *root);
 
 
 /**
- * @brief find miximum data of tree
+ * @brief find minimum data of tree
  * 
  * @param root 
  * @return int 
@@ -347,35 +359,108 @@ void createBinaryTree(node *&root, int nums)
 
 
 
-void printInOrderTree(node *root) 
+void printInOrder(node *root) 
 {
 	if (root != nullptr) {
-		printInOrderTree(root->left);
+		printInOrder(root->left);
 		cout << root->data << " ";
-		printInOrderTree(root->right);
+		printInOrder(root->right);
 	}
 }
 
 
 
-void printPreOrderTree(node *root) 
+void printPreOrder(node *root) 
 {
 	if (root != nullptr) {
 		cout << root->data << " ";
-		printPreOrderTree(root->left);
-		printPreOrderTree(root->right);
+		printPreOrder(root->left);
+		printPreOrder(root->right);
 	}
 }
 
 
 
-void printPostOrderTree(node *root)
+void printPostOrder(node *root)
 {
 	if (root != nullptr) {
-		printPostOrderTree(root->left);
-		printPostOrderTree(root->right);
+		printPostOrder(root->left);
+		printPostOrder(root->right);
 		cout << root->data << " ";
 	}
+}
+
+
+
+void printSpiralOrder(node *root)
+{
+    queue<node *> nodes;
+    vector<int> temp;
+    node *p;
+    int level = 0, currentSize, i;
+    
+    if (root) {
+        nodes.push(root);                               // init
+        
+        while (!nodes.empty()) {
+            currentSize = nodes.size();                 // control numbers of current node in queue
+            
+            for (i = 0; i < currentSize; i++) {
+                p = nodes.front();                      // get node
+                nodes.pop();
+                
+                temp.push_back(p->data);                // store data of node
+                
+                if (p->left)                            // store node in left subtree
+                    nodes.push(p->left);
+            
+                if (p->right)                           // store node in right subtree
+                    nodes.push(p->right);
+            }
+            
+            if (level % 2 == 0)                         // even level -> reverse
+                reverse(temp.begin(), temp.end());
+                
+            level++;                                    // inc level
+                
+            for (auto Data : temp)                      // print spiral order
+                cout << Data << " ";
+                
+            temp.clear();                               // reset for next iterations
+        }
+    }
+}
+
+
+
+void printRightView(node *root, vector<int> &rightViewNodes, int level)
+{
+    if (root != nullptr) {
+        if (level == rightViewNodes.size()) {                       // rightmost node
+            rightViewNodes.push_back(root->data);
+            cout << root->data << " ";
+        }
+        
+        printRightView(root->right, rightViewNodes, level+1);       // prioritize for right subtree
+        
+        printRightView(root->left, rightViewNodes, level+1);
+    }
+}
+
+
+
+void printLeftView(node *root, vector<int> &leftViewNodes, int level)
+{
+    if (root != nullptr) {
+        if (level == leftViewNodes.size()) {                        // leftmost node
+            leftViewNodes.push_back(root->data);
+            cout << root->data << " ";
+        }
+        
+        printLeftView(root->left, leftViewNodes, level+1);          // prioritize for left subtree
+        
+        printLeftView(root->right, leftViewNodes, level+1);
+    }
 }
 
 
@@ -501,34 +586,6 @@ void deleteNodeEqVal(node *&root, int val)
             deleteNodeEqVal(root->right, val);
         }		
 	}
-}
-
-
-
-void rightViewTraversal(node *root, vector<int> &rightViewNodes, int level)
-{
-    if (root != nullptr) {
-        if (level == rightViewNodes.size())
-            rightViewNodes.push_back(root->data);
-        
-        rightViewTraversal(root->right, rightViewNodes, level+1);
-        
-        rightViewTraversal(root->left, rightViewNodes, level+1);
-    }
-}
-
-
-
-void leftViewTraversal(node *root, vector<int> &leftViewNodes, int level)
-{
-    if (root != nullptr) {
-        if (level == leftViewNodes.size())
-            leftViewNodes.push_back(root->data);
-        
-        leftViewTraversal(root->left, leftViewNodes, level+1);
-        
-        leftViewTraversal(root->right, leftViewNodes, level+1);
-    }
 }
 
 
