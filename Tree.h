@@ -265,6 +265,18 @@ bool isBST(node *root);
 
 
 
+/**
+ * @brief find the kth ancestor of the given node in the binary tree. If there does not exist any such ancestor then return -1.
+ *
+ * https://practice.geeksforgeeks.org/problems/kth-ancestor-in-a-tree/1
+ *  
+ * @param root 
+ * @param k kth ancestor
+ * @param node given node
+ * @return int 
+ */
+int kthAncestor(node *root, int k, int node);
+
 /* -------------------------------------------------------- PROTOTYPE - END ----------------------------------------------------------- */
 
 
@@ -636,5 +648,37 @@ bool isBST(node* root)
         return false;
         
     return true;
+}
+
+
+
+void kthAncestor_traversal(node *root, int k, int node, vector<int> &combinations, int &kthAncestor)
+{
+    if (root) {
+        if ((root->data == node) && (combinations.size() >= k))
+            kthAncestor = combinations[combinations.size()-k];
+            
+        combinations.push_back(root->data);
+            
+        kthAncestor_traversal(root->left, k, node, combinations, kthAncestor);
+        
+        kthAncestor_traversal(root->right, k, node, combinations, kthAncestor);
+        
+        combinations.pop_back();
+    }
+}
+
+/*
+    combine nodes to different branches, check each branch sequentially
+    if detect node, find kth ancestor of that node 
+*/
+int kthAncestor(node *root, int k, int node)
+{
+    vector<int> combinations;
+    int kthAncestor = -1;
+    
+    kthAncestor_traversal(root, k, node, combinations, kthAncestor);
+    
+    return kthAncestor;
 }
 /* ---------------------------------------------------------- FUNCTIONS - END ---------------------------------------------------------- */

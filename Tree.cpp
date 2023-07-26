@@ -6,7 +6,7 @@ using namespace std;
 
 int main() {
 	tree *Tree = new tree;
-	int nums, opt, cnt, val;
+	int nums, opt, cnt, val, k;
 	vector<int> nodes;
 
 	while (1) {
@@ -27,6 +27,7 @@ int main() {
         cout << "13. Display the number of nodes equal to value" << endl;
         cout << "14. Delete nodes equal to value" << endl;        
 		cout << "15. Check Binary Search Tree" << endl;
+		cout << "16. Display kth ancestor of any node" << endl;
         cout << "Enter your option: ";
         cin >> opt;
 
@@ -103,6 +104,16 @@ int main() {
 					cout << "This tree is a binary search tree";
 				else
 					cout << "This tree is not a binary search tree";
+				break;
+			case 16:
+				cout << "Enter data of node: ";
+				cin >> val;
+				cout << "Enter k: ";
+				cin >> k; 
+				if (kthAncestor(Tree->root, k, val) == -1)
+					cout << "Kth ancestor of node: NULL";
+				else
+					cout << "Kth ancestor of node: " << kthAncestor(Tree->root, k, val);
 				break;
             default:
                 cout << "Invalid option !";
