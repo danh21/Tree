@@ -277,6 +277,20 @@ bool isBST(node *root);
  */
 int kthAncestor(node *root, int k, int node);
 
+
+
+/**
+ * @brief find the Lowest Common Ancestors of the two nodes in the BST.
+ * 
+ * https://practice.geeksforgeeks.org/problems/lowest-common-ancestor-in-a-bst/1
+ * 
+ * @param root 
+ * @param n1 data of node1
+ * @param n2 data of node2
+ * @return node* 
+ */
+node *LCA(node *root, int n1, int n2);
+
 /* -------------------------------------------------------- PROTOTYPE - END ----------------------------------------------------------- */
 
 
@@ -681,4 +695,41 @@ int kthAncestor(node *root, int k, int node)
     
     return kthAncestor;
 }
+
+
+
+void LCA_traversal(node *root, int node, vector<struct node *> &ancestor)
+{
+    if (root) {
+        ancestor.push_back(root);
+        
+        if (root->data == node)
+            return;
+            
+        if (root->data < node)
+            LCA_traversal(root->right, node, ancestor);
+        else
+            LCA_traversal(root->left, node, ancestor);
+    }
+}
+
+/*
+    traverse to find node1, store ancestors of node1
+    traverse to find node2, store ancestors of node2
+    compare 2 vectors and find LCA
+*/
+node *LCA(node *root, int n1, int n2)
+{
+    vector<node *> ancestor1, ancestor2;
+    
+    LCA_traversal(root, n1, ancestor1);
+    
+    LCA_traversal(root, n2, ancestor2);
+    
+    for (int i = ancestor1.size()-1; i >= 0; i--)
+        for (int j = ancestor2.size()-1; j >= 0; j--)
+            if (ancestor1[i]->data == ancestor2[j]->data)
+                return ancestor1[i];
+}
+
 /* ---------------------------------------------------------- FUNCTIONS - END ---------------------------------------------------------- */
