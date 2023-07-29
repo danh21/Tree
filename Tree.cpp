@@ -28,6 +28,7 @@ int main() {
         cout << "14. Delete nodes equal to value" << endl;        
 		cout << "15. Check Binary Search Tree" << endl;
 		cout << "16. Display kth ancestor of any node" << endl;
+		cout << "17. Display median" << endl;
         cout << "Enter your option: ";
         cin >> opt;
 
@@ -114,6 +115,9 @@ int main() {
 					cout << "Kth ancestor of node: NULL";
 				else
 					cout << "Kth ancestor of node: " << kthAncestor(Tree->root, k, val);
+				break;
+			case 17:
+				cout << "Median of tree: " << findMedian(Tree->root);
 				break;
             default:
                 cout << "Invalid option !";

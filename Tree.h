@@ -291,6 +291,16 @@ int kthAncestor(node *root, int k, int node);
  */
 node *LCA(node *root, int n1, int n2);
 
+
+
+/**
+ * @brief find the median
+ * 
+ * @param root 
+ * @return float 
+ */
+float findMedian(node *root);
+
 /* -------------------------------------------------------- PROTOTYPE - END ----------------------------------------------------------- */
 
 
@@ -732,4 +742,33 @@ node *LCA(node *root, int n1, int n2)
                 return ancestor1[i];
 }
 
+
+
+void findMedian_traversal(node *root, vector<int> &nodes) 
+{
+    if (root) {
+        nodes.push_back(root->data);
+        
+        findMedian_traversal(root->left, nodes);
+        
+        findMedian_traversal(root->right, nodes);
+    }
+}
+
+float findMedian(node *root)
+{
+    vector<int> nodes;
+    float median;
+    int size;
+    
+    findMedian_traversal(root, nodes);  // traverse to store nodes
+    
+    sort(nodes.begin(), nodes.end());   // ascending sort
+    
+    size = nodes.size();                // find median
+    if (size % 2 == 0)
+        return (float)(nodes[size/2 - 1] + nodes[size/2]) / 2;
+    else
+        return nodes[(size+1)/2 - 1];
+}
 /* ---------------------------------------------------------- FUNCTIONS - END ---------------------------------------------------------- */
