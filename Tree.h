@@ -301,6 +301,17 @@ node *LCA(node *root, int n1, int n2);
  */
 float findMedian(node *root);
 
+
+
+/**
+ * @brief returns the in-order successor of the node X in BST
+ * 
+ * @param root 
+ * @param X 
+ * @return node* 
+ */
+node * inOrderSuccessor(node *root, node *X);
+
 /* -------------------------------------------------------- PROTOTYPE - END ----------------------------------------------------------- */
 
 
@@ -757,18 +768,52 @@ void findMedian_traversal(node *root, vector<int> &nodes)
 
 float findMedian(node *root)
 {
-    vector<int> nodes;
-    float median;
-    int size;
-    
-    findMedian_traversal(root, nodes);  // traverse to store nodes
-    
-    sort(nodes.begin(), nodes.end());   // ascending sort
-    
-    size = nodes.size();                // find median
-    if (size % 2 == 0)
-        return (float)(nodes[size/2 - 1] + nodes[size/2]) / 2;
-    else
-        return nodes[(size+1)/2 - 1];
+    try {
+        if (root == nullptr)
+            throw ERR_EMPTY;
+
+        vector<int> nodes;
+        float median;
+        int size;
+        
+        findMedian_traversal(root, nodes);  // traverse to store nodes
+        
+        sort(nodes.begin(), nodes.end());   // ascending sort
+        
+        size = nodes.size();                // find median
+        if (size % 2 == 0)
+            return (float)(nodes[size/2 - 1] + nodes[size/2]) / 2;
+        else
+            return nodes[(size+1)/2 - 1];
+    }
+
+    catch (const char *exc) {
+        cout << exc << endl;
+    }   
 }
+
+
+
+void inOrderSuccessor_traversal(node *root, vector<node *> &nodes) 
+{
+    if (root) {
+        inOrderSuccessor_traversal(root->left, nodes);
+        nodes.push_back(root);
+        inOrderSuccessor_traversal(root->right, nodes);
+    }
+}
+
+node * inOrderSuccessor(node *root, node *X)
+{
+    vector<node *> nodes;
+    
+    inOrderSuccessor_traversal(root, nodes);
+    
+    for (int i = 0; i < nodes.size(); i++)
+        if (nodes[i] == X && i+1 < nodes.size())
+            return nodes[i+1];
+            
+    return NULL;
+}
+
 /* ---------------------------------------------------------- FUNCTIONS - END ---------------------------------------------------------- */
